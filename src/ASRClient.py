@@ -1,4 +1,6 @@
 from google.cloud import speech_v1 as speech
+import audio
+
 
 class ASRClient:
     def __init__(self, language_code, rate):

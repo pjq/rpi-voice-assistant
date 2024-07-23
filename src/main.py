@@ -30,7 +30,7 @@ def main():
     asr_client = ASRClient(language_code, RATE)
 
     # LLM setup
-    llm_client = LLMClient(os.getenv('LLM_API_KEY', "dummy_key"), config["llm_VersionID"])
+    llm_client = LLMClient(api_key=os.getenv('OPENAI_API_KEY', "sk-"), base_url="https://sapai.pjq.me/v1")
 
     with audio.MicrophoneStream(RATE, CHUNK) as stream:
         print("Starting voice assistant!")
@@ -46,31 +46,23 @@ def main():
                 print("Wakeword Detected")
                 audio.beep()
                 end = False
-                while not end: 
-                    if llm_client.state_uninitialized(): 
-                        # First session
-                        print("Initializing first session")
-                        response = llm_client.init_state()
-                    else:
-                        stream.start_buf()  # Only start the stream buffer when we detect the wakeword
-                        audio_generator = stream.generator()
-                        utterance = asr_client.transcribe(audio_generator)
-                        stream.stop_buf()
+                while not end:
+                    stream.start_buf()  # Only start the stream buffer when we detect the wakeword
+                    audio_generator = stream.generator()
+                    utterance = asr_client.transcribe(audio_generator)
+                    stream.stop_buf()
 
-                        # Send request to LLM service and get response
-                        response = llm_client.interact(utterance)
+                    # Send request to LLM service and get response
+                    response_message = llm_client.interact(utterance)
                     
-                    for item in response["trace"]:
-                        if item["type"] == "speak":
-                            payload = item["payload"]
-                            message = payload["message"]
-                            print("Response: " + message)
-                            audio.play(payload["src"])
-                        elif item["type"] == "end":
-                            print("-----END-----")
-                            llm_client.clear_state()
-                            end = True
-                            audio.beep()
+                    print("Response: " + response_message)
+                    # Assuming audio.play can handle text-to-speech conversion
+                    audio.play(response_message)
+                    end = True
+                    audio.beep()
+
+if __name__ == "__main__":
+    main()
 
 if __name__ == "__main__":
     main()
