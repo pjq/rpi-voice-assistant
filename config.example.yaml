@@ -1,0 +1,7 @@
+# Wakework config
+wakewords: ["computer", "jarvis"]
+#https://console.picovoice.ai/
+picovice_access_key: "your_access_key"
+
+RATE: 16000
+language_code: "en-US"  # a BCP-47 language tag
