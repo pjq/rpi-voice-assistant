@@ -72,23 +72,41 @@ def main():
                 asr_client.tts(random.choice(responses))
                 
                 end = False
+                last_interaction_time = time.time()
                 while not end:
                     stream.start_buf()  # Only start the stream buffer when we detect the wakeword
-                    # audio_generator = stream.generator()
                     logger.info("Starting transcription process")
-                    utterance = asr_client.transcribe()  # Updated method call
-                    logger.info("Transcription result: %s", utterance)
+                    recognizdText = asr_client.transcribe()  # Updated method call
+                    logger.info("Transcription result: %s", recognizdText)
                     stream.stop_buf()
 
-                    # Send request to LLM service and get response
-                    response_message = llm_client.interact(utterance)
-                    
-                    logger.info("Response: " + response_message)
-                    # Assuming audio.play can handle text-to-speech conversion
-                    # audio.play(response_message)
-                    asr_client.tts(response_message)
-                    end = True
-                    audio.beep()
+                    # Check for stop command
+                    if recognizdText.lower() in ["stop", "exit", "quit"]:
+                        end = True
+                        logger.info("Stopping voice assistant")
+                        asr_client.tts("Goodbye!")
+                        break
+
+                    # Check for None or empty utterance
+                    if recognizdText is None or recognizdText.strip() == "":
+                        logger.warning("Received empty or None recognizdText, skipping interaction")
+                    else:
+                        # Send request to LLM service and get response
+                        response_message = llm_client.interact(recognizdText)
+                        
+                        logger.info("Response: " + response_message)
+                        if response_message is not None:
+                            asr_client.tts(response_message)
+                            # Update last interaction time
+                            last_interaction_time = time.time()
+                        audio.beep()
+
+
+                    # Check for inactivity timeout
+                    if time.time() - last_interaction_time > 10:
+                        logger.info("No interaction for 10 seconds, going back to sleep")
+                        asr_client.tts("Going back to sleep")
+                        end = True
 
 if __name__ == "__main__":
     main()
