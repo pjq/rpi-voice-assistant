@@ -59,6 +59,18 @@ def main():
             if keyword_index >= 0:
                 logger.info("Wakeword Detected")
                 audio.beep()
+
+                import random
+
+                responses = [
+                    "I'm here and ready to help!",
+                    "Listening closely, go ahead!",
+                    "I'm all ears, what can I do for you?",
+                    "Ready when you are!",
+                    "I'm here, let's get started!"
+                ]
+                asr_client.tts(random.choice(responses))
+                
                 end = False
                 while not end:
                     stream.start_buf()  # Only start the stream buffer when we detect the wakeword
