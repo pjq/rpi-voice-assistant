@@ -42,3 +42,10 @@ Run
 ```bash
 python3 ./src/main.py
 ```
+
+
+## wakeup solution
+- picovoice
+- snowboy
+- 亚博MVE01
+- https://github.com/wzpan/wukong-robot/issues/285
