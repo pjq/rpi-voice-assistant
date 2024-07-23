@@ -1,5 +1,5 @@
 # rpi-voice-assistant
-A Raspberry Pi based voice assistant running logic on Voiceflow
+A Raspberry Pi based voice assistant running on LLM 
 
 ![image](img/Rpi_assistant.jpg)
 
@@ -32,9 +32,10 @@ The Voiceflow API key must be specified as an environment variable `VF_API_KEY`.
 To run the application, you must specify the following in the `config.yaml`: 
 | Parameter | Purpose |
 | --------- | ------- |
-| vf_DiagramID | The Voiceflow diagram ID of your target skill |
-| vf_VersionID | The Voiceflow runnable version ID of your target skill |
-| wakeword | A list of `porcupine`-supported wake word(s) that can be used to invoke the system |
+| wakewords | A list of `porcupine`-supported wake words that can be used to invoke the system |
+| picovice_access_key | The access key for Picovoice's Porcupine engine |
+| RATE | The audio sampling rate, e.g., 16000 |
+| language_code | The language code for the ASR system, e.g., "en-US" |
 
 ## Usage
 Run 
