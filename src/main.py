@@ -23,6 +23,9 @@ def load_config(config_file="config.yaml"):
 
 def main():
     logger.info("Starting main function")
+    # Set the environment variable for Google Cloud credentials
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "path/to/your/service-account-file.json"
+    
     config = load_config()
 
     RATE = config["RATE"]
