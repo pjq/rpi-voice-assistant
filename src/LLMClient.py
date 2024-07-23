@@ -4,8 +4,11 @@ class LLMClient:
         self.api_key = api_key
         self.model = model
         self.base_url = base_url
+        from datetime import datetime
+
+        current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         self.messages = [
-            {"role": "system", "content": "You are a helpful voice assistant, Jarvis, keep the response friendly for tts."}
+            {"role": "system", "content": f"You are a helpful voice assistant, Jarvis for Pipi(皮皮, 6 years old Shanghai boy), keep the response friendly for tts. Current time is {current_time}."}
         ]
         openai.api_key = self.api_key
         openai.base_url = self.base_url
