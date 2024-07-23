@@ -5,3 +5,6 @@ picovice_access_key: "your_access_key"
 
 RATE: 16000
 language_code: "en-US"  # a BCP-47 language tag
+microsoft_tts:
+  subscription_key: "be533fxxxxxx"
+  region: "eastasia"
