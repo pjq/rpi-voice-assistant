@@ -49,3 +49,8 @@ python3 ./src/main.py
 - snowboy
 - 亚博MVE01
 - https://github.com/wzpan/wukong-robot/issues/285
+
+
+## Reference
+- https://notemi.cn/integrate-voice-services-to-achieve-voice-conversations-with-chatgpt.html
+- https://github.com/wzpan/wukong-robot
