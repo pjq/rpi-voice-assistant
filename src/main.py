@@ -63,11 +63,11 @@ def main():
                 import random
 
                 responses = [
-                    "I'm here and ready to help!",
-                    "Listening closely, go ahead!",
-                    "I'm all ears, what can I do for you?",
-                    "Ready when you are!",
-                    "I'm here, let's get started!"
+                    "Hello!",
+                    "Ready.",
+                    "Go ahead.",
+                    "Hi!",
+                    "Yes?"
                 ]
                 asr_client.tts(random.choice(responses))
                 
