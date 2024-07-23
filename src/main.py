@@ -72,7 +72,6 @@ def main():
                 asr_client.tts(random.choice(responses))
                 
                 end = False
-                last_interaction_time = time.time()
                 while not end:
                     stream.start_buf()  # Only start the stream buffer when we detect the wakeword
                     logger.info("Starting transcription process")
@@ -90,6 +89,9 @@ def main():
                     # Check for None or empty utterance
                     if recognizdText is None or recognizdText.strip() == "":
                         logger.warning("Received empty or None recognizdText, skipping interaction")
+                        logger.info("No interaction for 10 seconds, going back to sleep")
+                        asr_client.tts("Going back to sleep")
+                        end = True
                     else:
                         # Send request to LLM service and get response
                         response_message = llm_client.interact(recognizdText)
@@ -98,15 +100,7 @@ def main():
                         if response_message is not None:
                             asr_client.tts(response_message)
                             # Update last interaction time
-                            last_interaction_time = time.time()
                         audio.beep()
-
-
-                    # Check for inactivity timeout
-                    if time.time() - last_interaction_time > 10:
-                        logger.info("No interaction for 10 seconds, going back to sleep")
-                        asr_client.tts("Going back to sleep")
-                        end = True
 
 if __name__ == "__main__":
     main()
